@@ -18,7 +18,8 @@ export default {
       label: '',
       hint: '',
       maxQuantity: 100,
-      patternValidQuantity: /^(?:[1-9]\d*|\d)$/
+      patternValidQuantity: /^(?:[1-9]\d*|\d)$/,
+      hintDiv: ''
     }
   },
   props: {
@@ -30,6 +31,7 @@ export default {
   mounted () {
     this.label = 'Колличество, шт'
     this.hint = 'максимум ' + this.maxQuantity + ' шт'
+    this.hintDiv = this.$el.getElementsByClassName('v-messages theme--light')[0]
   },
   methods: {
     onChangeValue (e) {
@@ -41,7 +43,15 @@ export default {
   },
   computed: {
     validValue () {
-      return this.patternValidQuantity.test(String(this.data)) && String(this.data) > 0 && String(this.data) <= this.maxQuantity
+      if (this.patternValidQuantity.test(String(this.data)) && String(this.data) > 0 && String(this.data) <= this.maxQuantity) {
+        if (this.hintDiv !== '') {
+          this.hintDiv.classList.remove('error--text')
+        }
+        return true
+      } else {
+        this.hintDiv.classList.add('error--text')
+        return false
+      }
     }
   }
 }

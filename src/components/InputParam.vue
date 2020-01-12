@@ -17,7 +17,8 @@ export default {
     return {
       label: '',
       hint: '',
-      patternValidParam: /^-?\d*\.?\d+$/
+      patternValidParam: /^-?\d*\.?\d+$/,
+      hintDiv: ''
     }
   },
   props: {
@@ -33,6 +34,7 @@ export default {
   mounted () {
     this.label = this.data.name + ' ' + this.data.sym + ',' + ' ' + this.data.unit
     this.hint = 'от ' + this.data.minimValue + this.data.unit + ' до ' + this.data.maximValue + this.data.unit
+    this.hintDiv = this.$el.getElementsByClassName('v-messages theme--light')[0]
   },
   methods: {
     onChangeValue (e) {
@@ -47,7 +49,15 @@ export default {
   },
   computed: {
     validValue () {
-      return this.patternValidParam.test(this.data.value) && this.data.value >= this.data.minimValue && this.data.value <= this.data.maximValue
+      if (this.patternValidParam.test(this.data.value) && this.data.value >= this.data.minimValue && this.data.value <= this.data.maximValue) {
+        if (this.hintDiv !== '') {
+          this.hintDiv.classList.remove('error--text')
+        }
+        return true
+      } else {
+        this.hintDiv.classList.add('error--text')
+        return false
+      }
     }
   }
 }
