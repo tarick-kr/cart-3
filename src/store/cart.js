@@ -11,7 +11,6 @@ export default {
         imageProduct: Img1,
         price: 50,
         quantity: 5,
-        selectType: 2,
         productParams: [
           {
             id: 'param1-prod1',
@@ -49,7 +48,6 @@ export default {
         imageProduct: Img2,
         price: 15,
         quantity: 9,
-        selectType: 3,
         productParams: [
           {
             id: 'param1-prod2',
@@ -78,7 +76,6 @@ export default {
         imageProduct: Img3,
         price: 50,
         quantity: 3,
-        selectType: 1,
         productParams: [
           {
             id: 'param1-prod3',
@@ -185,7 +182,14 @@ export default {
       return state.cartItemList
     },
     cartCount: (state) => {
-      return state.cartItemList.length
+      let count = []
+      let total
+      for (let i = 0; i < state.cartItemList.length; i++) {
+        let countItem = state.cartItemList[i].quantity
+        count.push(countItem)
+      }
+      total = count.reduce((sum, current) => sum + current, 0)
+      return total
     },
     total: (state) => {
       let sum = []
